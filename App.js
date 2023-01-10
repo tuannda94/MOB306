@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
 import {useState} from 'react';
+import ProductText from "./src/screens/ProductText";
 
 export default function App() {
   // const [tên_state, tên_pt_thay_đổi_gt_cho_state] = useState(gt mặc định);
@@ -35,6 +36,11 @@ export default function App() {
   return (
     <ScrollView>
       <View style={styles.container}>
+      {/* Cách sử dụng component con đã tạo */}
+        <ProductText name={'Tên SP 1'} desc={'MT 1'}   />
+        <ProductText name={'Tên SP 2'} status={2}  />
+        <ProductText name={'Tên SP 3'} desc={'MT 3'}   />
+
         {
           isShow
             ? <>
