@@ -1,6 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
 import {useState} from 'react';
+import
+  TextInfo,
+  {SingleText}
+  from "./src/screens/TextInfo";
+// import { SingleText } from "./src/screens/TextInfo";
 
 export default function App() {
   // - state là 1 thành phần cung cấp bởi react
@@ -42,6 +47,11 @@ export default function App() {
   return (
     <ScrollView>
       <View style={styles.container}>
+
+        <TextInfo name={'Thong tin sp 1'} desc={'XYZ'} />
+        <TextInfo name={'Thong tin sp 2'} desc={'XYZ'} />
+        <TextInfo name={'Thong tin sp 3'} desc={'XYZ'} />
+        <SingleText />
       {
         switchState
         ? <>
