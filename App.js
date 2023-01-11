@@ -1,6 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button } from "react-native";
 import {useState} from 'react';
+import ProductText, {ProductImage} from "./src/screens/ProductText";
+// import { ProductImage } from "./src/screens/ProductText";
+// Nếu tạo thư mục sau khi npm start thì có thể lỗi link
+// Ctrl + C để ngắt server sau đó npm start lại
 
 export default function App() {
   // const [tên_biến_state, tên_pt_thay_đổi_gt_state] = useState(gt_mặc định);
@@ -32,6 +36,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <ProductImage />
+      <ProductText name={'Tên SP 1'} desc={123}   />
+      <ProductText name={'Tên SP 2'} desc={'123'}  />
+      <ProductText name={'Tên SP 3'} desc={'abc'}  />
+
       <Button
         title={'Bấm để Ẩn Hiện giao diện'}
         onPress={() => setShowStatus(!showStatus)}
