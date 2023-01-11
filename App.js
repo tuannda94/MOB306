@@ -1,6 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
 import {useState} from 'react';
+import ProductName,
+  { ProductDesc as PD } // as chỉ áp dụng với component k default
+  from "./src/screens/ProductName";
+// import { ProductDesc } from "./src/screens/ProductName";
 
 export default function App() {
   // const [tên_state, tên_pt_cập_nhật_gt] = useState(gt mặc định)
@@ -33,6 +37,16 @@ export default function App() {
   return (
     <ScrollView>
       <View style={styles.container}>
+        <ProductName name={'Cơm niêu'}    />
+        <PD desc={'Mô tả cơm niêu'} />
+        <ProductName
+          name={'Cơm rang'}
+        />
+        <ProductName
+          name={'Hủ tiếu'}
+          description={'Mô tả dùng trong PN Hủ tiếu'}
+        />
+
         <Button
           // title={
           //   status
@@ -47,8 +61,8 @@ export default function App() {
             ? <>
                 <Text style={styles.text}>Count: {count}</Text>
                 <Button
-                  title={'Bấm để tăng count'}
                   onPress={() => plus()}
+                  title={'Bấm để tăng count'}
                   // onPress={plus}
                 />
               </>
