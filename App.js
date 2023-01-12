@@ -5,6 +5,7 @@ import
   TextInfo,
   {SingleText}
   from "./src/screens/TextInfo";
+import ProductList from "./src/screens/ProductList";
 // import { SingleText } from "./src/screens/TextInfo";
 
 export default function App() {
@@ -44,9 +45,23 @@ export default function App() {
   let count = 0;
   const tangCount = () => count++;
 
+  // Dữ liệu cần truyền do ds
+  const productList = [
+        {
+            id: 1,
+            name: 'IPHONE 12'
+        },
+        {
+            id: 2,
+            name: 'IPHONE 13'
+        }
+    ];
+
   return (
-    <ScrollView>
       <View style={styles.container}>
+        <ProductList data={productList} />
+
+
 
         <TextInfo name={'Thong tin sp 1'} desc={'XYZ'} />
         <TextInfo name={'Thong tin sp 2'} desc={'XYZ'} />
@@ -94,7 +109,6 @@ export default function App() {
         {/* Alt + Shift + Mũi tên xuống */}
         <StatusBar style="auto" />
       </View>
-    </ScrollView>
   );
 }
 
