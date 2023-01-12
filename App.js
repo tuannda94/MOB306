@@ -1,7 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
 import {useState} from 'react';
-import ProductText from "./src/screens/ProductText";
+import
+  ProductText,
+  { ProductPrice as PP }
+from "./src/screens/ProductText";
+import ProductList from "./src/screens/ProductList";
 
 export default function App() {
   // const [tên_state, tên_pt_thay_đổi_gt_cho_state] = useState(gt mặc định);
@@ -33,11 +37,22 @@ export default function App() {
   let count = 0;
   const tangCount = () => count++;
 
+  // Mảng ds sp truyền sang ProductList
+  const productList = [
+    {id: 1, name: 'IPHONE 12', price: 10000000},
+    {id: 2, name: 'IPHONE 13', price: 15000000},
+    {id: 2, name: 'IPHONE 14', price: 20000000},
+];
+
   return (
     <ScrollView>
       <View style={styles.container}>
+        <ProductList data={productList} />
+
+
       {/* Cách sử dụng component con đã tạo */}
         <ProductText name={'Tên SP 1'} desc={'MT 1'}   />
+        <PP value={12000000} />
         <ProductText name={'Tên SP 2'} status={2}  />
         <ProductText name={'Tên SP 3'} desc={'MT 3'}   />
 

@@ -3,6 +3,15 @@
 // thay đổi nội dung cho phù hợp
 import {Text, StyleSheet} from 'react-native';
 
+// 1 file js nhiều component nhưng chỉ 1 được export default
+export function ProductPrice (props) {
+    return (
+        <Text style={styles.price}>
+            {props.value} VND
+        </Text>
+    );
+}
+
 // export default function ProductText ({name}) {
 export default function ProductText (props) {
     // props là 1 object truyền từ cha sang
