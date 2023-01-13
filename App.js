@@ -4,6 +4,7 @@ import {useState} from 'react';
 import ProductName,
   { ProductDesc as PD } // as chỉ áp dụng với component k default
   from "./src/screens/ProductName";
+import ProductList from "./src/screens/ProductList";
 // import { ProductDesc } from "./src/screens/ProductName";
 
 export default function App() {
@@ -34,9 +35,22 @@ export default function App() {
   let count = 0;
   const plus = () => count++;
 
+  // Ds truyền sang cho ProductList
+  const list = [
+    {id: 1, name: 'Bún bò huế', price: 50000},
+    {id: 2, name: 'Bún trộn', price: 40000},
+    {id: 3, name: 'Phở trộn', price: 35000},
+    {id: 4, name: 'Phở trộn', price: 35000},
+    {id: 5, name: 'Phở trộn', price: 35000},
+    {id: 6, name: 'Phở trộn', price: 35000},
+  ];
+
   return (
-    <ScrollView>
+    // <ScrollView>
       <View style={styles.container}>
+        <ProductList data={list} />
+
+{/*
         <ProductName name={'Cơm niêu'}    />
         <PD desc={'Mô tả cơm niêu'} />
         <ProductName
@@ -83,13 +97,13 @@ export default function App() {
         </Text>
         <Text style={styles.text}>
           {arrowMiniShowData('Địa chỉ', 'Hà Nội')}
-        </Text>
+        </Text> */}
 
         {/* Alt + Shift + Mũi tên xuống: Sao chép dòng */}
         {/* Ctrl + D: Bôi phần nội dung giống nhau */}
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
       </View>
-    </ScrollView>
+    // </ScrollView>
   );
 }
 
