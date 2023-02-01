@@ -1,88 +1,82 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  Modal,
+  FlatList
+} from "react-native";
 import {useState} from 'react';
-import
-  ProductText, // có thể đổi tên
-  {ProductImage as PI} // gọi dưới 1 tên khác
-from "./src/screens/ProductText";
-import ProductList from "./src/screens/ProductList";
-// import { ProductImage } from "./src/screens/ProductText";
-// Nếu tạo thư mục sau khi npm start thì có thể lỗi link
-// Ctrl + C để ngắt server sau đó npm start lại
 
 export default function App() {
-  // const [tên_biến_state, tên_pt_thay_đổi_gt_state] = useState(gt_mặc định);
-  const [countState, setCountState] = useState(0);
-  const [showStatus, setShowStatus] = useState(true);
+  const data = [
+    {
+      id: 1,
+      name: 'Iphone 11',
+      price: 11000000,
+    },
+    {
+      id: 2,
+      name: 'Iphone 12',
+      price: 12000000,
+    },
+  ];
+  // De danh sach render lai khi co du lieu moi thi can 1 ds dang state
+  const [productList, setProductList] = useState(data);
+  const [isShowAdd, setShowAdd] = useState(false);
+  const [nameValue, setNameValue] = useState('');
+  const [priceValue, setPriceValue] = useState(0);
 
-  // Phần code logic:
-  let name = "NDAT";
-  let age = 20;
-
-  if (age > 20) {
-    name = 'NDAT - Người lớn';
-  } else {
-    name = 'NDAT - Trẻ em';
-  }
-  // Hàm hiển thị nội dung theo mong muốn
-  function showData (label = '', value = '') {
-    return label + ': ' + value;
-  }
-  // arrow function
-  const arrowShowData = (label = '', value = '') => {
-    return label + ': ' + value;
+  const handleAdd = () => {
+    // Khi bam Luu se goi ham nay
+    // 1. Dinh nghia object moi se duoc them vao mang du lieu
+    const newItem = {
+      id: productList[productList.length - 1].id + 1,
+      name: nameValue,
+      price: priceValue
+    };
+    // 2. Them phan tu moi vao mang sau do cap nhat lai ds
+    // ... se lay ra toan bo phan tu cua mang, sau do ghep cung phan tu moi
+    const newProductList = [...productList, newItem];
+    // 3. Cap nhat ds moi de hien thi
+    setProductList(newProductList);
+    // 4. Cap nhat input ve ds mac dinh va dong modal
+    setNameValue(''); setPriceValue(0); setShowAdd(false);
   };
-  const arrowMiniShowData = (label = '', value = '') => (label + ': ' + value);
-
-  // Ví dụ về tăng biến count
-  let count = 0;
-  const tangCount = () => count++;
 
   return (
     <View style={styles.container}>
-      <ProductList />
-
-      {/* <PI />
-      <ProductText name={'Tên SP 1'} desc={123}   />
-      <ProductText name={'Tên SP 2'} desc={'123'}  />
-      <ProductText name={'Tên SP 3'} desc={'abc'}  /> */}
-
-      <Button
-        title={'Bấm để Ẩn Hiện giao diện'}
-        onPress={() => setShowStatus(!showStatus)}
-      />
-      {
-        showStatus
-          ? <>
-              <Text style={styles.text}>Count: {count}</Text>
-              <Button
-                title={'Bấm để tăng gt count'}
-                onPress={() => tangCount()}
-              />
-            </>
-          : null
+      {isShowAdd
+        ? null
+        : <Button title="Them moi" onPress={() => setShowAdd(true)} />
       }
-
-
-      <Text style={styles.text}>Count state: {countState}</Text>
-      <Button
-        title={'Bấm để tăng gt countState'}
-        onPress={() => setCountState(countState + 1)}
+      {/* visible cua Modal se the hien trang thai an hien */}
+      {/* Thay the cho cach dung toan tu 3 ngoi de an hien giao dien */}
+      <Modal visible={isShowAdd} animationType="slide">
+        <View>
+          <Text>{nameValue}</Text>
+          <TextInput placeholder="Ten san pham"
+            value={nameValue}
+            onChangeText={(text) => setNameValue(text)}
+          />
+          <TextInput placeholder="Gia san pham" keyboardType="numeric"
+            value={priceValue}
+            onChangeText={(text) => setPriceValue(text)}
+          />
+          <Button title="Huy" onPress={() => setShowAdd(false)} />
+          <Button title="Luu" onPress={() => handleAdd()}/>
+        </View>
+      </Modal>
+      <FlatList
+        data={productList}
+        renderItem={({item}) => <View>
+          <Text>Ten SP: {item.name}</Text>
+          <Text>Gia SP: {item.price} VND</Text>
+        </View>}
+        keyExtractor={(item) => item.id}
       />
-
-
-      {/* Đưa giá trị biến vào trong cặp ngoặc nhọn {} */}
-      <Text style={styles.text}> {name} - PH12345</Text>
-      <Text style={styles.text}>
-        {arrowShowData('Email', 'tuannda3@fe.edu.vn')}
-      </Text>
-      <Text style={styles.text}>
-        {arrowMiniShowData('SDT', '0392871868')}
-      </Text>
-      {/* Alt + Shift + Mũi tên xuống: để sao chép dòng */}
-      {/* Ctrl + D: Bôi vào những phần nội dung giống nhau */}
-      {/* Ctrl + X: Nếu không bôi văn bản thì sẽ xoá cả dòng */}
-      <StatusBar style="auto" />
     </View>
   );
 }
