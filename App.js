@@ -1,127 +1,66 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  FlatList,
+  Modal,
+  TextInput
+} from 'react-native';
 import {useState} from 'react';
-import
-  TextInfo,
-  {SingleText}
-  from "./src/screens/TextInfo";
-import ProductList from "./src/screens/ProductList";
-// import { SingleText } from "./src/screens/TextInfo";
-
-export default function App() {
-  // - state là 1 thành phần cung cấp bởi react
-  //    giúp tạo ra 1 biến lưu giữ giá trị, khi nó thay đổi giá trị sẽ
-  //    render lại màn hình
-  // - state sẽ chỉ có tác dụng ở trong function này
-  //    nghĩa là khi thay đổi nó chỉ render lại view đang chứa nó
-
-  // const [tên_state, tên_pt_thay_đổi_gt_bên_trái] = useState(gt mặc định);
-  const [countState, setCountState] = useState(0);
-  const [switchState, setSwitchState] = useState(true);
-
-  // Phần code logic:
-  let name = 'NDAT';
-  let address = 'Hà Nội';
-  let age = 20;
-
-  if (age > 20) {
-    name = 'NDAT - Người lớn';
-  } else {
-    name = 'NDAT - Trẻ con';
-  }
-
-  function showContent(label, value) {
-    return label + ': ' + value;
-  }
-  // chuyển hàm này thành dạng arrow function
-  const arrowShowContent = (label, value) => {
-    return label + ':'+ value;
-  }
-  // sau => là ngoặc tròn hoặc không có ngoặc thì đây chính là
-  // kq của return;
-  const arrowMiniShowContent = (label, value) => (label + ':' + value);
-
-  // Sự kiện tăng giá trị của 1 số
-  let count = 0;
-  const tangCount = () => count++;
-
-  // Dữ liệu cần truyền do ds
-  const productList = [
-        {
-            id: 1,
-            name: 'IPHONE 12'
-        },
-        {
-            id: 2,
-            name: 'IPHONE 13'
-        }
-    ];
+// export default function App () {};
+const App = () => {
+  const [isShowForm, setShowForm] = useState(false);
+  const [list, setList] = useState([
+    {id: 1, name: 'ABC', desc: 'Desc ABC'}
+  ]);
+  const [nameInput, setNameInput] = useState('');
+  const [descInput, setDescInput] = useState('');
+  const onSave = () => {
+    // 1. Định nghĩa obj mới sẽ được lưu vào
+    const newItem = {
+      id: list.length == 0
+        ? 1
+        : list[list.length - 1].id + 1,
+      name: nameInput,
+      desc: descInput
+    };
+    // 2. Thêm phần tử mới vào mảng list
+    // ... lấy toàn bộ pt của mảng mà k ảnh hưởng đến mảng đó
+    const newList = [...list, newItem];
+    setList(newList);
+    // 3. Đóng modal
+    setShowForm(false);
+  };
 
   return (
-      <View style={styles.container}>
-        <ProductList data={productList} />
-
-
-
-        <TextInfo name={'Thong tin sp 1'} desc={'XYZ'} />
-        <TextInfo name={'Thong tin sp 2'} desc={'XYZ'} />
-        <TextInfo name={'Thong tin sp 3'} desc={'XYZ'} />
-        <SingleText />
-      {
-        switchState
-        ? <>
-            <Text style={styles.text}>Count: {count}</Text>
-            <Button
-              title={"Bấm để tăng count"}
-              onPress={() => tangCount()}
-            />
-          </>
-        : null
-      }
-
-        <Text style={styles.text}>CountState: {countState}</Text>
-        {/* Nếu dùng thêm Button thì phải import từ react-native trước */}
-        <Button
-          title={"Bấm để tăng countState"}
-          onPress={() => setCountState(countState + 1)}
-        />
-        <Button
-          title={"Bấm để ẩn giao diện"}
-          onPress={() => setSwitchState(!switchState)}
-        />
-
-
-
-
-
-        <Text style={styles.text}>
-          {arrowShowContent('Tên', name)}
-        </Text>
-        <Text style={styles.text}>
-          {arrowMiniShowContent('Địa chỉ', address)}
-        </Text>
-        <Text style={styles.text}>
-          {showContent('Email', 'tuannda3@fe.edu.vn')}
-        </Text>
-        <Text style={styles.text}>
-          {showContent('SDT', '0392871868')}
-        </Text>
-        {/* Alt + Shift + Mũi tên xuống */}
-        <StatusBar style="auto" />
-      </View>
+    <View>
+      <Text>Họ tên: Nguyễn Đức Anh Tuấn</Text>
+      <Text>MSV: PH12345</Text>
+      {isShowForm ? null : <Button title="Thêm mới"
+        onPress={() => setShowForm(true)}
+      />}
+      <Modal visible={isShowForm} animationType="slide">
+        <View>
+          <Text>{nameInput} {descInput}</Text>
+          <TextInput placeholder='Tên'
+            onChangeText={(text) => setNameInput(text)} />
+          <TextInput placeholder='Mô tả'
+            onChangeText={(text) => setDescInput(text)}
+          />
+          <Button title='Huỷ' onPress={() => setShowForm(false)} />
+          <Button title='Lưu' onPress={() => onSave()} />
+        </View>
+      </Modal>
+      <FlatList
+        data={list}
+        renderItem={({item}) => <View>
+          <Text>{item.id}</Text>
+          <Text>{item.name}</Text>
+          <Text>{item.desc}</Text>
+        </View>}
+        keyExtractor={(item) => item.id}
+      />
+    </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    // nếu dùng sẽ là styles.text
-    color: "red",
-    fontSize: 30,
-  },
-});
+};
+export default App;
