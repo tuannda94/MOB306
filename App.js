@@ -1,118 +1,75 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
-import {useState} from 'react';
-import
-  ProductText,
-  { ProductPrice as PP }
-from "./src/screens/ProductText";
-import ProductList from "./src/screens/ProductList";
+import { useState } from 'react';
+import {
+  View,
+  Text, Button, FlatList,
+  Modal, TextInput, Pressable
+} from 'react-native';
+const App = () => {
+  const [isShow, setShow] = useState(false);
+  const [list, setList] = useState([
+    {id: 1, name: 'ABC', desc: 'Mo ta ABC'}
+  ]);
+  const [nameInput, setNameInput] = useState('');
+  const [descInput, setDescInput] = useState('');
 
-export default function App() {
-  // const [tên_state, tên_pt_thay_đổi_gt_cho_state] = useState(gt mặc định);
-  const [countState, setCountState] = useState(0);
-  const [isShow, setShow] = useState(true);
+  const onSave = () => {
+    // 1. Định nghĩa obj mới sẽ được lưu
+    const newItem = {
+      name: nameInput,
+      desc: descInput,
+      // mảng k có pt thì id = 1,
+      // mảng có pt thì id cuối cùng  + 1
+      id: list.length == 0
+        ? 1
+        : list[list.length - 1].id + 1
+    };
+    // 2. Thêm obj đó vào mảng mới và set state
+    const newList = [...list, newItem];
+    setList(newList);
+    // 3. Ẩn modal sau khi đã lưu
+    setShow(false);
+  };
 
-  // Phần viết code logic
-  let name = "Nguyễn Đức Anh Tuấn";
-  let email = "tuannda3@fe.edu.vn";
-  let age = 20;
-
-  if (age > 20) {
-    name = "NDAT - Người lớn";
-  } else {
-    name = 'NDAT - Trẻ con';
+  const onDelete = (deleteId) => {
+    const newList = list.filter((item) => {
+      return item.id !== deleteId;
+    });
+    setList(newList);
   }
-
-  function showData (label, value) {
-    return label + ': ' + value;
-  }
-  const arrowShowData = (label, value) => {
-    return label + ': ' + value;
-  }
-  // Nếu không có thêm logic gì ngoài return, có thể bỏ ngoặc nhọn
-  // và chữ return
-  const arrowMiniShowData = (label, value) => (label + ': ' + value);
-
-  // Ví dụ về việc cập nhật hiển thị 1 giá trị count
-  let count = 0;
-  const tangCount = () => count++;
-
-  // Mảng ds sp truyền sang ProductList
-  const productList = [
-    {id: 1, name: 'IPHONE 12', price: 10000000},
-    {id: 2, name: 'IPHONE 13', price: 15000000},
-    {id: 2, name: 'IPHONE 14', price: 20000000},
-];
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <ProductList data={productList} />
-
-
-      {/* Cách sử dụng component con đã tạo */}
-        <ProductText name={'Tên SP 1'} desc={'MT 1'}   />
-        <PP value={12000000} />
-        <ProductText name={'Tên SP 2'} status={2}  />
-        <ProductText name={'Tên SP 3'} desc={'MT 3'}   />
-
-        {
-          isShow
-            ? <>
-              <Text style={styles.text}>Count: {count}</Text>
-              <Button
-                title={'Bấm để tăng gt count'}
-                onPress={() => tangCount()}
-              />
-            </>
-            : null
-        }
-
-        <Text style={styles.text}>Count state: {countState}</Text>
-        <Button
-          title={'Bấm để tăng gt count'}
-          onPress={() => setCountState(countState + 1)}
-        />
-        <Button
-          title={'Bấm để ẩn hiện giao diện'}
-          onPress={() => setShow(!isShow)}
-        />
-
-
-
-
-
-
-
-        <Text style={styles.text}>
-          {showData('Tên', name)}
-        </Text>
-        <Text style={styles.text}>
-          {arrowShowData('Email', email)}
-        </Text>
-        <Text style={styles.text}>
-          {arrowMiniShowData('Địa chỉ', 'Hà Nội')}
-        </Text>
-        {/* Alt + Shift + Mũi tên xuống: Sao chép dòng */}
-        {/* Ctrl + D: Bôi những phần nội dung tương tự */}
-        <StatusBar style="auto" />
-      </View>
-    </ScrollView>
+    <View>
+      <Text>Họ tên: Nguyễn Đức Anh Tuấn</Text>
+      <Text>MSV: PH12345</Text>
+      {isShow ? null :
+        <Button title='Them' onPress={() => setShow(true)} />}
+      {/* Modal nhan gt bang visible de an hien giao dien */}
+      <Modal visible={isShow} animationType="slide">
+        <View>
+          <Text>{nameInput} {descInput}</Text>
+          <TextInput placeholder='Ten'
+            onChangeText={(text) => setNameInput(text)}
+          />
+          <TextInput placeholder='Mo ta'
+            onChangeText={(text) => setDescInput(text)}
+          />
+          <Button title='Huy' onPress={() => setShow(false)}/>
+          <Button title='Luu' onPress={() => onSave()} />
+        </View>
+      </Modal>
+      <FlatList
+        data={list}
+        renderItem={({item}) => <View>
+          <Text>{item.id}</Text>
+          <Text>{item.name}</Text>
+          <Text>{item.desc}</Text>
+          <Pressable onPress={() => onDelete(item.id)}>
+            <Text>Xoaaaaaaa</Text>
+          </Pressable>
+        </View>}
+        keyExtractor={(item) => item.id}
+      />
+    </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  text: {
-    color: "red",
-    fontSize: 30,
-    fontStyle: "italic",
-    fontWeight: "bold",
-  },
-});
+};
+export default App;
