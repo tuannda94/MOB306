@@ -11,8 +11,27 @@ const App = () => {
   ]);
   const [nameInput, setNameInput] = useState('');
   const [descInput, setDescInput] = useState('');
+  const [editingId, setEditingId] = useState(0);
 
+  const onClose = () => {
+    setShow(false);
+    setNameInput(''); setDescInput(''); setEditingId(0);
+  };
   const onSave = () => {
+    // 0. Kiểm tra editingId để xem có phải đang sửa k
+    if (editingId) {
+      const newList = list.map(item => {
+        if (item.id == editingId) {
+          item.name = nameInput;
+          item.desc = descInput;
+        }
+        return item;
+      });
+      setList(newList);
+      // Đóng modal và cập nhật lại gt mặc định
+      onClose();
+      return;
+    }
     // 1. Định nghĩa obj mới sẽ được lưu
     const newItem = {
       name: nameInput,
@@ -27,7 +46,7 @@ const App = () => {
     const newList = [...list, newItem];
     setList(newList);
     // 3. Ẩn modal sau khi đã lưu
-    setShow(false);
+    onClose();
   };
 
   const onDelete = (deleteId) => {
@@ -35,6 +54,17 @@ const App = () => {
       return item.id !== deleteId;
     });
     setList(newList);
+  };
+
+  const onEdit = (editId) => {
+    // 1. Hiện modal lên
+    setShow(true);
+    // 2. Tìm phần tử đang được sửa để lấy thông tin
+    const editItem = list.find(item => item.id == editId);
+    // 3. Hiển thị dữ liệu sửa lên TextInput
+    setNameInput(editItem.name);
+    setDescInput(editItem.desc);
+    setEditingId(editId);
   }
 
   return (
@@ -46,14 +76,16 @@ const App = () => {
       {/* Modal nhan gt bang visible de an hien giao dien */}
       <Modal visible={isShow} animationType="slide">
         <View>
-          <Text>{nameInput} {descInput}</Text>
+          <Text>{nameInput} {descInput} {editingId}</Text>
           <TextInput placeholder='Ten'
+            value={nameInput}
             onChangeText={(text) => setNameInput(text)}
           />
           <TextInput placeholder='Mo ta'
+            value={descInput}
             onChangeText={(text) => setDescInput(text)}
           />
-          <Button title='Huy' onPress={() => setShow(false)}/>
+          <Button title='Huy' onPress={() => onClose()}/>
           <Button title='Luu' onPress={() => onSave()} />
         </View>
       </Modal>
@@ -63,6 +95,9 @@ const App = () => {
           <Text>{item.id}</Text>
           <Text>{item.name}</Text>
           <Text>{item.desc}</Text>
+          <Pressable onPress={() => onEdit(item.id)}>
+            <Text>Suaaaaa</Text>
+          </Pressable>
           <Pressable onPress={() => onDelete(item.id)}>
             <Text>Xoaaaaaaa</Text>
           </Pressable>
