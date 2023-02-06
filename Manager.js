@@ -10,7 +10,11 @@ import {
 } from 'react-native';
 import {useState} from 'react';
 
-const App = () => {
+const App = (props) => {
+  const route = props.route;
+  // const {route} = props;
+  const nameTuAbout = route.params.name;
+
   const [isShowForm, setShowForm] = useState(false);
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
@@ -69,6 +73,7 @@ const App = () => {
 
   return (
     <View>
+      <Text>Quản lý: {nameTuAbout}</Text>
       {isShowForm ? null : <Button title='Them moi'
         onPress={() => setShowForm(true)}
       />}
