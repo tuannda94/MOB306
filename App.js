@@ -18,9 +18,10 @@ const Stack = createNativeStackNavigator();
 const App = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name='Home' component={Home} />
+        {/* initialRouteName nhận vào tên của màn hình trang chủ */}
+            <Stack.Navigator initialRouteName='Home1'>
                 <Stack.Screen name='Info' component={Info} />
+                <Stack.Screen name='Home1' component={Home} />
                 <Stack.Screen name='UserList' component={UserList} />
             </Stack.Navigator>
         </NavigationContainer>
