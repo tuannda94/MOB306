@@ -13,7 +13,9 @@ import {useState} from 'react';
 const App = (props) => {
   const route = props.route;
   // const {route} = props;
-  const nameTuAbout = route.params.name;
+  // Nếu params có truyền sang name thì lấy,
+  // không thì sẽ gán mặc định là 'Manager'
+  const nameTuAbout = route.params?.name || 'Manager';
 
   const [isShowForm, setShowForm] = useState(false);
   const [name, setName] = useState('');
