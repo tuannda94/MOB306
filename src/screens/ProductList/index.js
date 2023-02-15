@@ -1,26 +1,43 @@
-import {FlatList, Text, StyleSheet} from 'react-native';
+import {View, Text, Button, FlatList} from 'react-native';
+import {useState, useEffect} from 'react';
 
-export default function ProductList (props) {
-    const productList = [
-        {id: 1, name: 'Iphone 12', price: 1000000},
-        {id: 2, name: 'Iphone 13', price: 2000000},
-    ];
+const List = (props) => {
+    const [list, setList] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+    useEffect(() => {
+        fetch('http://10.0.2.2:3000/users')
+            .then((res) => res.json()) // trả về json
+            .then((data) => {
+                setList(data);
+                setLoading(false);
+            })
+    }, []);
+
+    const onAdd = () => {
+        props.navigation.navigate('Add');
+    }
 
     return (
-        <FlatList
-            data={productList}
-            // item là giao diện trả về sau mỗi vòng lặp
-            renderItem={({item}) => (
-                <>
-                    <Text>Tên SP: {item.name}</Text>
-                    <Text>Giá: {item.price} VND</Text>
-                </>
-            )}
-            // key là giá trị duy nhất trả về sau mỗi vòng lặp
-            keyExtractor={(item) => item.id}
-        />
+        <View>
+            <Button title='Thêm mới'
+                onPress={() => onAdd()}
+            />
+            {
+                isLoading
+                    ? <Text style={{fontSize: 20}}>'Loading...'</Text>
+                    : <FlatList
+                        data={list}
+                        renderItem={({item}) => <View>
+                            <Text style={{fontSize: 30}}>
+                                {item.name}
+                            </Text>
+                        </View>}
+                        keyExtractor={(item, index) => index}
+                    />
+            }
+
+        </View>
     );
+};
 
-}
-
-const styles = StyleSheet.create({});
+export default List;
