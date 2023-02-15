@@ -6,10 +6,11 @@ import Manager from './Manager'; // file App cũ
 import {View, Text, Button, FlatList} from 'react-native';
 import {useState, useEffect} from 'react';
 const Stack = createNativeStackNavigator();
-
+import Form from './src/screens/Form';
 // Tạo ra thêm 1 màn hình About để quản lý
 const About = (props) => {
     const nav = props.navigation;
+    const check = props.route.params?.check;
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [list, setList] = useState([]);
@@ -26,7 +27,7 @@ const About = (props) => {
                 setList(data);
                 setLoading(false);
             });
-    }, []); // mảng rỗng thì chỉ chạy 1 lần duy nhất
+    }, [check]); // mảng rỗng thì chỉ chạy 1 lần duy nhất
 
     useEffect(() => {
         // CV được thực hiện khi mới render vào và
@@ -35,6 +36,10 @@ const About = (props) => {
     }, [name]);
 
     return (<View>
+        <Button
+            title="Thêm mới"
+            onPress={() => nav.navigate('Form')}
+        />
         {
             isLoading
                 ? <Text style={{fontSize:40}}
@@ -89,6 +94,9 @@ const App = () => {
             />
             <Stack.Screen
                 name='About' component={About}
+            />
+            <Stack.Screen
+                name="Form" component={Form}
             />
         </Stack.Navigator>
     </NavigationContainer>
