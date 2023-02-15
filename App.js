@@ -3,7 +3,7 @@ import { NavigationContainer }
 import { createNativeStackNavigator }
     from '@react-navigation/native-stack';
 import Manager from './Manager'; // file App cũ
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, FlatList} from 'react-native';
 import {useState, useEffect} from 'react';
 const Stack = createNativeStackNavigator();
 
@@ -13,15 +13,19 @@ const About = (props) => {
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [list, setList] = useState([]);
+    const [isLoading, setLoading] = useState(true);
     // useEffect là hook giúp lắng nghe việc render của
     // component đang chứa nó
     // 1. Khi component vừa render xong, [] k có phần tử
     useEffect(() => {
         // setName('Name Effect');
         // setId('Id Effect');
-        fetch('http://10.0.2.2:3000/users')
+        fetch('https://63e5fb6483c0e85a868a560d.mockapi.io/products')
             .then(res => res.json())
-            .then(data => setList(data));
+            .then(data => {
+                setList(data);
+                setLoading(false);
+            });
     }, []); // mảng rỗng thì chỉ chạy 1 lần duy nhất
 
     useEffect(() => {
@@ -31,6 +35,21 @@ const About = (props) => {
     }, [name]);
 
     return (<View>
+        {
+            isLoading
+                ? <Text style={{fontSize:40}}
+                >Loading...</Text>
+                : <FlatList
+                    data={list}
+                    renderItem={({item}) => <View>
+                        <Text>{item.name}</Text>
+                    </View>}
+                    keyExtractor={(item) => item.id}
+                />
+        }
+
+
+
         <Text style={{fontSize: 30}}>Trang About</Text>
         <Text style={{fontSize: 30}}>Họ tên: {name}</Text>
         <Text style={{fontSize: 30}}>MSV: {id}</Text>
