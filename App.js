@@ -4,6 +4,7 @@ import {View, Text, Button} from 'react-native';
 import Manager from './Manager';
 import Info from './src/screens/Info';
 import ProductList from './src/screens/ProductList';
+import Form from './src/screens/Form';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ const App = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName='List'>
+                <Stack.Screen name='Form' component={Form} />
                 <Stack.Screen name='Home' component={Home} />
                 <Stack.Screen name='Manager' component={Manager} />
                 <Stack.Screen name='Info' component={Info} />

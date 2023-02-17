@@ -1,8 +1,14 @@
 {
-    "users": [
-        {"id": 1, "name": "ABC", "address": {"a": 1, "b": 2, "c": 3, "d": 4}, "email": "abcd", "status": 1},
-        {"id": 2, "name": "ABC", "address": {"a": 1, "b": 2, "c": 3, "d": 4}, "email": "abcd", "status": 1},
-        {"id": 3, "name": "ABC", "address": {"a": 1, "b": 2, "c": 3, "d": 4}, "email": "abcd", "status": 1},
-        {"id": 4, "name": "ABC", "address": {"a": 1, "b": 2, "c": 3, "d": 4}, "email": "abcd", "status": 1}
-    ]
+  "users": [
+    {
+      "name": "SP 1",
+      "status": "1",
+      "id": 1
+    },
+    {
+      "name": "SP 2 update",
+      "status": "2",
+      "id": 2
+    }
+  ]
 }
