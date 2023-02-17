@@ -1,30 +1,39 @@
 import {View, Button, TextInput} from 'react-native';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import {API_USER} from '../../helpers/api';
 
 const Form = (props) => {
     const {navigation: nav, route} = props;
+    const editData = route.params?.editData;
     const [name, setName] = useState('');
+
+    useEffect(() => {
+        if (editData) {
+            setName(editData.name);
+        }
+    }, [editData?.id]);
 
     const onSave = () => {
         const newObj = {name}; // {name: name}
         fetch(
-            'https://63e5fb6483c0e85a868a560d.mockapi.io/products',
+            !editData ? API_USER : `${API_USER}/${editData.id}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                method: 'POST',
+                method: !editData ? 'POST' : 'PUT',
                 body: JSON.stringify(newObj)
             }
-        ).then((res) => res.json())
-        .then((data) => nav.navigate('About', {check: Math.random()*10000000}));
+        ).then((res) => nav.goBack());
+        // Khi thành công sẽ quay trở lại mh trc đó
     };
 
     return (
         <View>
             <TextInput
                 placeholder='Name'
+                value={name}
                 onChangeText={(text) => setName(text)}
             />
             <Button
