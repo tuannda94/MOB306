@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './src/screens/Home';
 import UserList from './src/screens/UserList';
 import Info from './src/screens/Info';
+import Form from './src/screens/Form';
 
 const Stack = createNativeStackNavigator();
 // Các màn hình như sau
@@ -20,6 +21,7 @@ const App = () => {
         <NavigationContainer>
         {/* initialRouteName nhận vào tên của màn hình trang chủ */}
             <Stack.Navigator initialRouteName='Home1'>
+                <Stack.Screen name='Form' component={Form} />
                 <Stack.Screen name='Info' component={Info} />
                 <Stack.Screen name='Home1' component={Home} />
                 <Stack.Screen name='UserList' component={UserList} />
