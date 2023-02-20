@@ -5,6 +5,8 @@ import Manager from './Manager';
 import Info from './src/screens/Info';
 import ProductList from './src/screens/ProductList';
 import Form from './src/screens/Form';
+import Book from './src/screens/Book';
+import BookForm from './src/screens/BookForm';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +24,9 @@ const Home = (props) => {
 const App = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='List'>
+            <Stack.Navigator initialRouteName='Book'>
+                <Stack.Screen name='Book' component={Book} />
+                <Stack.Screen name='BookForm' component={BookForm} />
                 <Stack.Screen name='Form' component={Form} />
                 <Stack.Screen name='Home' component={Home} />
                 <Stack.Screen name='Manager' component={Manager} />

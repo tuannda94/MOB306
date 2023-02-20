@@ -10,5 +10,42 @@
       "status": "2",
       "id": 2
     }
+  ],
+  "books": [
+    {
+      "id": 1,
+      "name": "Đắc nhân tâm",
+      "author": "Nguyen Van A",
+      "price": 12000,
+      "status": 1
+    },
+    {
+      "name": "Đắc nhân tâm",
+      "author": "Nguyen Van ABC update",
+      "price": 120000,
+      "status": 0,
+      "id": 2
+    },
+    {
+      "name": "Nha gia kim",
+      "author": "123123",
+      "price": "12312312",
+      "status": true,
+      "id": 3
+    },
+    {
+      "name": "10 van cau hoi vi sao",
+      "author": "1232123123",
+      "price": "12312312",
+      "status": true,
+      "id": 4
+    },
+    {
+      "name": "300 bai code thieu nhi",
+      "author": "123123",
+      "price": 121231231231,
+      "status": 0,
+      "id": 5
+    }
   ]
 }
