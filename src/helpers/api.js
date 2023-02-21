@@ -1,5 +1,7 @@
 export const API_URL = 'http://172.20.10.3:3000';
 export const API_USER = API_URL + '/users';
+// export const API_BOOK = API_URL + '/books';
+export const API_BOOK = `${API_URL}/books`;
 // export const API_PROD = API_URL + '/products';
 
 /*

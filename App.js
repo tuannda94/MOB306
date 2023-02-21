@@ -5,6 +5,8 @@ import Home from './src/screens/Home';
 import UserList from './src/screens/UserList';
 import Info from './src/screens/Info';
 import Form from './src/screens/Form';
+import Book from './src/screens/Book';
+import AddBook from './src/screens/Book/Add';
 
 const Stack = createNativeStackNavigator();
 // Các màn hình như sau
@@ -20,11 +22,13 @@ const App = () => {
     return (
         <NavigationContainer>
         {/* initialRouteName nhận vào tên của màn hình trang chủ */}
-            <Stack.Navigator initialRouteName='Home1'>
+            <Stack.Navigator initialRouteName='BookList'>
                 <Stack.Screen name='Form' component={Form} />
                 <Stack.Screen name='Info' component={Info} />
                 <Stack.Screen name='Home1' component={Home} />
                 <Stack.Screen name='UserList' component={UserList} />
+                <Stack.Screen name='BookList' component={Book} />
+                <Stack.Screen name='AddBook' component={AddBook} />
             </Stack.Navigator>
         </NavigationContainer>
     );

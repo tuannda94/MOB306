@@ -4,5 +4,14 @@
       "name": "Ban ghi dau tien",
       "id": 1
     }
+  ],
+  "books": [
+    {
+      "id": 1,
+      "name": "Sach moi",
+      "author": "Nguyen Van A",
+      "price": 120000,
+      "status": true
+    }
   ]
 }
